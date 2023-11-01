@@ -1,13 +1,12 @@
 from kafka import KafkaConsumer
 from itertools import zip_longest
+import json
 
 servidores_bootstrap = 'localhost:9092'   
 topics = ['ingredient-topic']
 
 # Creando grupos de consumidores para cada topic
 consumer_groups = [f'grupo_consumidores_{topic}' for topic in topics]
-
-# Creando consumidores para cada grupo
 consumers = [
     KafkaConsumer(
         *topics,
@@ -17,13 +16,14 @@ consumers = [
     for group in consumer_groups
 ]
 
-# Partition of topics
-
-
-# Crear un bucle infinito para consumir mensajes de manera alternada de cada consumidor
 while True:
     for msgs in zip_longest(*consumers):
         for i, msg in enumerate(msgs):
             if msg is not None:
-                print(f"Grupo de consumidores: {consumer_groups[i]}\n")
-                print(f"Topic: {msg.topic}, Mensaje: {msg.value}")
+                print(f"Grupo de consumidores: {consumer_groups[i]}")
+                try:
+                    messages = json.loads(msg.value.decode('utf-8'))
+                    for message in messages:
+                        print(f"Mensaje recibido: {message}")
+                except json.JSONDecodeError as e:
+                    print(f"Error al decodificar JSON: {e}")
