@@ -33,12 +33,7 @@ def csv_to_json(input_filename, selected_columns):
     except FileNotFoundError:
         print(f"El archivo {input_filename} no fue encontrado.")
         return []
-    except Exception as e:
-        print(f"Ocurrió un error: {e}")
-        return []
 
 selected_columns = ['id', 'Maestro_Motehuesillero', 'Paid']
 data_list = csv_to_json('data.csv', selected_columns)
-
-#print(data_list)
 send_registration_form(data_list)
