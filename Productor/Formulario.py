@@ -17,12 +17,19 @@ def send_registration_form(data_list):
     producer.flush()
 
 
-def csv_to_json(input_filename):
+def csv_to_json(input_filename, selected_columns):
     try:
         with open(input_filename, 'r', encoding='utf-8') as csvfile:
             csv_reader = csv.DictReader(csvfile)
             json_list = [row for row in csv_reader]
-        return json_list
+
+        # Seleccionar solo las columnas especificadas
+        selected_data_list = []
+        for row in json_list:
+            selected_data = {col: row[col] for col in selected_columns}
+            selected_data_list.append(selected_data)
+
+        return selected_data_list
     except FileNotFoundError:
         print(f"El archivo {input_filename} no fue encontrado.")
         return []
@@ -30,6 +37,8 @@ def csv_to_json(input_filename):
         print(f"Ocurrió un error: {e}")
         return []
 
+selected_columns = ['id', 'Maestro_Motehuesillero', 'Paid']
+data_list = csv_to_json('data.csv', selected_columns)
 
-data_list = csv_to_json('data.csv')
+#print(data_list)
 send_registration_form(data_list)
