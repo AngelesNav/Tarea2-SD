@@ -28,12 +28,7 @@ def csv_to_json(input_filename, selected_columns):
         print(f"El archivo {input_filename} no fue encontrado.")
     except Exception as e:
         print(f"Ocurrió un error: {e}")
-       
-    except FileNotFoundError:
-        print(f"El archivo {input_filename} no fue encontrado.")
-    except Exception as e:
-        print(f"Ocurrió un error: {e}")
-
+        
 selected_columns = ['id', 'Maestro_Motehuesillero', 'Stock'] 
 data_stock = csv_to_json('data.csv', selected_columns)
 
