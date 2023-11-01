@@ -25,7 +25,11 @@ while True:
                 print(f"Grupo de consumidores: {consumer_groups[i]}")
                 try:
                     messages = json.loads(msg.value.decode('utf-8'))
-                    for message in messages:
-                        print(f"Mensaje recibido: {message}")
+                    if isinstance(messages, list):
+                        for message in messages:
+                            print(f"Mensaje recibido: {message}")
+                    else:
+                        print(f"Mensaje no es una lista válida: {messages}")
                 except json.JSONDecodeError as e:
                     print(f"Error al decodificar JSON: {e}")
+
