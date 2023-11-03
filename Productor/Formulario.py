@@ -1,7 +1,9 @@
 from confluent_kafka import Producer
 import json
 import csv
+import app
 
+filecsv = "data3.csv"
 
 def send_registration_form(data_list):
     topic = "Formulario-topic"
@@ -34,6 +36,9 @@ def csv_to_json(input_filename, selected_columns):
         print(f"El archivo {input_filename} no fue encontrado.")
         return []
 
-selected_columns = ['id', 'Maestro_Motehuesillero', 'Paid']
-data_list = csv_to_json('data.csv', selected_columns)
+
+
+app.enviar_correo(filecsv)
+selected_columns = ['Nombre', 'apellido', 'Paid']
+data_list = csv_to_json(filecsv, selected_columns)
 send_registration_form(data_list)
